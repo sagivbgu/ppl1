@@ -1,12 +1,28 @@
 /* Question 1 */
+interface Some<T> {
+    tag: "Some",
+    value: T
+};
 
-export type Optional<T> = undefined;
+interface None {
+    tag: "None"
+};
 
-export const makeSome = undefined;
-export const makeNone = undefined;
+export type Optional<T> = Some<T> | None;
 
-export const isSome = undefined;
-export const isNone = undefined;
+export const makeSome = <T>(val: T): Some<T> => {
+    return { tag: "Some", value: val }
+};
+
+export const makeNone = (): None => {
+    return { tag: "None" }
+};
+
+export const isSome = <T>(x: Optional<T>): x is Some<T> => x.tag === "Some";
+
+export const isNone = <T>(x: Optional<T>): x is None => x.tag === "None";
 
 /* Question 2 */
-export const bind = undefined;
+export const bind = <T, U>(optional: Optional<T>, f: (x: T) => Optional<U>): Optional<U> => {
+    return isNone(optional) ? makeNone() : f(optional.value);
+}
