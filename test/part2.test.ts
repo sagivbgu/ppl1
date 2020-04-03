@@ -24,6 +24,10 @@ describe("Assignment 1 Part 2", () => {
         expect(partition(containsS, words)).to.deep.equal([withS, withoutS]);
     });
 
+    it("maxSpeed empty pokedex", () => {
+        expect(maxSpeed([])).to.deep.equal([]);
+    });
+
     it("maxSpeed partial pokedex", () => {
         expect(maxSpeed(partialPokedex)).to.deep.equal([{ "id": 15, "name": { "english": "NOAME", "japanese": "NOAMJ", "chinese": "NOAMC", "french": "NOAMF" }, "type": ["Grass", "Fire"], "base": { "HP": 97, "Attack": 99, "Defense": 95, "Sp. Attack": 67, "Sp. Defense": 87, "Speed": 105 } },
         { "id": 16, "name": { "english": "AVIE", "japanese": "AVIJ", "chinese": "AVIC", "french": "AVIF" }, "type": [], "base": { "HP": 97, "Attack": 99, "Defense": 95, "Sp. Attack": 67, "Sp. Defense": 87, "Speed": 105 } }]);
@@ -67,19 +71,27 @@ describe("Assignment 1 Part 2", () => {
                     Speed: 100
                 }
             }
-        ])
+        ]);
+    });
+
+    it("grassType empty pokedex", () => {
+        expect(grassTypes([])).to.deep.equal([]);
     });
 
     it("grassType partial pokedex", () => {
-        expect(grassTypes(partialPokedex)).to.deep.equal(["NOAME", "TOMERE"])
+        expect(grassTypes(partialPokedex)).to.deep.equal(["NOAME", "TOMERE"]);
     });
 
     it("grassType full pokedex", () => {
-        expect(grassTypes(fullPokedex)).to.deep.equal(['Bulbasaur', 'Ivysaur', 'Venusaur'])
+        expect(grassTypes(fullPokedex)).to.deep.equal(['Bulbasaur', 'Ivysaur', 'Venusaur']);
+    });
+
+    it("uniqueTypes empty pokedex", () => {
+        expect(uniqueTypes([])).to.deep.equal([]);
     });
 
     it("uniqueTypes partial pokedex", () => {
-        expect(uniqueTypes(partialPokedex)).to.deep.equal(["Fire", "Grass", "Water"])
+        expect(uniqueTypes(partialPokedex)).to.deep.equal(["Fire", "Grass", "Water"]);
     });
 
     it("uniqueTypes full pokedex", () => {
