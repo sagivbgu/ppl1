@@ -26,17 +26,37 @@ describe("Assignment 1 Part 2", () => {
         const withoutS = ["No no", "AB", "AC"];
         expect(partition(containsS, words)).to.deep.equal([withS, withoutS]);
     });
-    
+
     it("mapMat squares each element in row of the matrice", () => {
-        expect (mapMat(((x: any) => x=x*x), [[1, 2, 3], [4, 5, 6], [7, 8, 9]])).to.deep.equal([[1,4,9],[16,25,36],[49,64,81]])
+        expect(mapMat(((x: number): number => x = x * x), [[1, 2, 3], [4, 5, 6], [7, 8, 9]])).to.deep.equal([[1, 4, 9], [16, 25, 36], [49, 64, 81]]);
+    });
+
+    it("mapMat squares each element in row of the matrice (changes type)", () => {
+        expect(mapMat(((x: number): string => (x + 2).toString()), [[1, 2, 3], [4, 5, 6], [7, 8, 9]])).to.deep.equal([["3", "4", "5"], ["6", "7", "8"], ["9", "10", "11"]]);
     });
 
     it("composeMany - square and half", () => {
-        expect (squareAndHalf(5)).to.deep.equal(12.5)
+        expect(squareAndHalf(5)).to.deep.equal(12.5);
     });
 
     it("composeMany - add 3", () => {
-        expect (add3(5)).to.deep.equal(8)});
+        expect(add3(5)).to.deep.equal(8);
+    });
+
+    it("composeMany - *8 by three multiple *2", () => {
+        const times8 = composeMany([(x: number) => x * 2, (x: number) => x * 2, (x: number) => x * 2]);
+        expect(times8(3)).to.equal(24);
+    });
+
+    it("composeMany - (2x+1)^2", () => {
+        let wf = composeMany([(x: number) => x * x, (x: number) => x + 1, (x: number) => 2 * x]);
+        expect(wf(4)).to.equal(81);
+    });
+
+    it("composeMany - (2(x+1))^2", () => {
+        let wf = composeMany([(x: number) => x * x, (x: number) => x * 2, (x: number) => x + 1]);
+        expect(wf(4)).to.equal(100);
+    });
 
     it("maxSpeed empty pokedex", () => {
         expect(maxSpeed([])).to.deep.equal([]);

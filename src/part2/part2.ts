@@ -7,7 +7,7 @@ export const partition: <T>(pred: (item: T) => boolean, arr: T[]) => T[][] = (pr
     [arr.filter(elem => pred(elem)), arr.filter(elem => !pred(elem))];
 
 /* Question 2 */
-export const mapMat: <T>(func: (item: T) => T, mat: T[][]) => T[][] = (func, mat) =>
+export const mapMat: <T, U>(func: (item: T) => U, mat: T[][]) => U[][] = (func, mat) =>
     map(map(func), mat);
 
 /* Question 3 */

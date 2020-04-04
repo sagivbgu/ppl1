@@ -37,7 +37,7 @@ interface User {
     name: string;
     email: string;
     handle: string;
-}
+};
 
 const validateName = (user: User): Result<User> =>
     user.name.length === 0 ? makeFailure("Name cannot be empty") :
@@ -59,10 +59,10 @@ export const naiveValidateUser = (user: User): Result<User> => {
            isFailure(validateEmail(user)) ? validateEmail(user) :
            isFailure(validateHandle(user)) ? validateHandle(user) :
            makeOk(user);
-}
+};
 
 /* Question 6 */
 
 export const monadicValidateUser = (user: User): Result<User> => {
     return reduce(bind, validateName(user), [validateEmail, validateHandle]);
-}
+};
