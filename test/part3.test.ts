@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { isNone, makeNone, isSome, makeSome, Optional, bind } from "../src/part3/optional";
-import { isOk, makeOk, isFailure, makeFailure, Result, bind as ResultBind } from "../src/part3/result";
+import { isOk, makeOk, isFailure, makeFailure, Result, bind as ResultBind, 
+         naiveValidateUser, monadicValidateUser } from "../src/part3/result";
 
 // For Optional<T> tests
 const safeDiv = (x: number, y: number): Optional<number> =>
@@ -16,8 +17,8 @@ interface User {
     }
 
 const validateName = (user: User): Result<User> =>
-user.name.length === 0 ? makeFailure("Name cannot be blank.") :
-user.name === "Bananas" ? makeFailure("Bananas is not a name.") :
+user.name.length === 0 ? makeFailure("Name cannot be blank") :
+user.name === "Bananas" ? makeFailure("Bananas is not a name") :
 makeOk(user);
 
 const validateEmail = (user: User): Result<User> =>
@@ -30,6 +31,8 @@ const user1 = { name: "Ben", email: "bene@post.bgu.ac.il", handle: "bene" };
 const user2 = { name: "Bananas", email: "me@bananas.com", handle: "bene" };
 
 const user3 = { name: "Yosi", email: "mebananas.com", handle: "bene" };
+
+const user4 = { name: "Haim", email: "haim@post.bgu.ac.il", handle: "@haim" };
 
 describe("Assignment 1 Part 3", () => {
     // Test Optional<T>
@@ -112,13 +115,13 @@ describe("Assignment 1 Part 3", () => {
         expect(isOk({ tag: "Ok", value: "Alon" })).to.deep.equal(true);
     });
     it("isOk2", () => {
-        expect(isOk({ tag: "None" })).to.deep.equal(false);
+        expect(isOk({ tag: "Failure", message: "1" })).to.deep.equal(false);
     });
     it("isOk3", () => {
         expect(isOk({ tag: "Ok", value: undefined })).to.deep.equal(true);
     });
     it("isFailure", () => {
-        expect(isFailure({ tag: "Failure" })).to.deep.equal(true)
+        expect(isFailure({ tag: "Failure", message: "a" })).to.deep.equal(true)
     });
     it("isFailure2", () => {
         expect(isFailure({ tag: "Ok", value: "Alon" })).to.deep.equal(false)
@@ -144,11 +147,35 @@ describe("Assignment 1 Part 3", () => {
     });
 
     it("ResultBind composes two functions - first returns Failure second eturns Failure", () => {
-        expect(ResultBind(validateName(user2), validateEmail)).to.deep.equal(makeFailure
-                                                            ("Tried to bind a value of type 'Failure'"));
+        expect(ResultBind(validateName(user2), validateEmail)).to.deep.equal(makeFailure("Bananas is not a name"));
     });
     it("ResultBind composes two functions - first returns Ok second returns Failure", () => {
         expect(ResultBind(validateName(user3), validateEmail)).to.deep.equal(makeFailure("Email is illegal"));
     });
+    it("Naive validate user1 - result is Ok", () => {
+        expect(naiveValidateUser(user1)).to.deep.equal(makeOk(user1));
+    })
+    it("Naive validate user2 - result is Failure", () => {
+        expect(naiveValidateUser(user2)).to.deep.equal(validateName(user2));
+    })
+    it("Naive validate user3 - result is Failure", () => {
+        expect(naiveValidateUser(user3)).to.deep.equal(makeFailure("Domain bananas.com is not allowed"));
+    })
+    it("Naive validate user4 - result is Failure", () => {
+        expect(naiveValidateUser(user4)).to.deep.equal(makeFailure("This isn't Twitter"));
+    })
 
+    it("monadicValidateUser1 - result is Ok", () => {
+        expect(monadicValidateUser(user1)).to.deep.equal(makeOk(user1));
+    })
+    it("monadicValidateUser2 - result is Failure", () => {
+        expect(naiveValidateUser(user2)).to.deep.equal(validateName(user2));
+    })
+    it("monadicValidateUser3 - result is Failure", () => {
+        expect(naiveValidateUser(user3)).to.deep.equal(makeFailure("Domain bananas.com is not allowed"));
+    })
+    it("monadicValidateUser4 - result is Failure", () => {
+        expect(naiveValidateUser(user4)).to.deep.equal(makeFailure("This isn't Twitter"));
+    })
+    
   });
