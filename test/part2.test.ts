@@ -1,6 +1,9 @@
 import { expect } from "chai";
-import { partition, maxSpeed, grassTypes, uniqueTypes } from "../src/part2/part2";
+import { partition, composeMany, mapMat, maxSpeed, grassTypes, uniqueTypes } from "../src/part2/part2";
 import { pokedex as fullPokedex } from "./test_pokedex";
+
+const squareAndHalf = composeMany([(x: number) => x / 2, (x: number) => x * x]);
+const add3 = composeMany([(x: number) => x + 1, (x: number) => x + 1, (x: number) => x + 1]);
 
 const partialPokedex = [{ "id": 15, "name": { "english": "NOAME", "japanese": "NOAMJ", "chinese": "NOAMC", "french": "NOAMF" }, "type": ["Grass", "Fire"], "base": { "HP": 97, "Attack": 99, "Defense": 95, "Sp. Attack": 67, "Sp. Defense": 87, "Speed": 105 } },
 { "id": 17, "name": { "english": "ALONE", "japanese": "ALONJ", "chinese": "ALONC", "french": "ALONF" }, "type": ["Water", "Fire"], "base": { "HP": 97, "Attack": 99, "Defense": 95, "Sp. Attack": 67, "Sp. Defense": 87, "Speed": 56 } },
@@ -23,6 +26,17 @@ describe("Assignment 1 Part 2", () => {
         const withoutS = ["No no", "AB", "AC"];
         expect(partition(containsS, words)).to.deep.equal([withS, withoutS]);
     });
+    
+    it("mapMat squares each element in row of the matrice", () => {
+        expect (mapMat(((x: any) => x=x*x), [[1, 2, 3], [4, 5, 6], [7, 8, 9]])).to.deep.equal([[1,4,9],[16,25,36],[49,64,81]])
+    });
+
+    it("composeMany - square and half", () => {
+        expect (squareAndHalf(5)).to.deep.equal(12.5)
+    });
+
+    it("composeMany - add 3", () => {
+        expect (add3(5)).to.deep.equal(8)});
 
     it("maxSpeed empty pokedex", () => {
         expect(maxSpeed([])).to.deep.equal([]);

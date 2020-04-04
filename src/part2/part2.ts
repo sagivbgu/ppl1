@@ -1,4 +1,4 @@
-import { chain, uniq } from "ramda";
+import { chain, uniq, map, compose } from "ramda";
 
 const GRASS_TYPE_NAME = "Grass";
 
@@ -7,10 +7,12 @@ export const partition: <T>(pred: (item: T) => boolean, arr: T[]) => T[][] = (pr
     [arr.filter(elem => pred(elem)), arr.filter(elem => !pred(elem))];
 
 /* Question 2 */
-export const mapMat = undefined;
+export const mapMat: <T>(func: (item: T) => T, mat: T[][]) => T[][] = (func, mat) =>
+    map(map(func), mat);
 
 /* Question 3 */
-export const composeMany = undefined;
+export const composeMany: <T>(funcsArr: ((param: T) => T)[]) => ((initParam: T) => T) = (funcsArr) =>
+    funcsArr.reduce((acc, curr) => compose(acc, curr), x => x );
 
 /* Question 4 */
 interface Languages {
