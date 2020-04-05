@@ -58,6 +58,16 @@ describe("Assignment 1 Part 2", () => {
         expect(wf(4)).to.equal(100);
     });
 
+    it("composeMany - only 1 operation", () => {
+        let wf = composeMany([(x: number) => x * x]);
+        expect(wf(4)).to.equal(16);
+    });
+
+    it("composeMany - no operations", () => {
+        let wf = composeMany([]);
+        expect(wf(4)).to.equal(4);
+    });
+
     it("maxSpeed empty pokedex", () => {
         expect(maxSpeed([])).to.deep.equal([]);
     });
